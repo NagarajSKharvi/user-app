@@ -15,7 +15,7 @@ public class JwtUtil {
     // ⚠️ Use a secure secret key with at least 256-bit (32-byte) for HS256
     private static final String SECRET = "this-is-a-very-secure-secret-key-123456"; // min 32 bytes!
     private static final long ACCESS_TOKEN_EXPIRATION = 15 * 60 * 1000; // 15 minutes
-    private final long REFRESH_TOKEN_EXPIRATION = 30 * 24 * 60 * 60 * 1000; // 30 Days
+    private static final long REFRESH_TOKEN_EXPIRATION = 30L * 24 * 60 * 60 * 1000; // 30 Days
 
     private final SecretKey key = Keys.hmacShaKeyFor(SECRET.getBytes(StandardCharsets.UTF_8));
 
