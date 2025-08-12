@@ -14,18 +14,29 @@ public class JwtUtil {
 
     // ⚠️ Use a secure secret key with at least 256-bit (32-byte) for HS256
     private static final String SECRET = "this-is-a-very-secure-secret-key-123456"; // min 32 bytes!
-    private static final long EXPIRATION = 15 * 60 * 1000; // 15 minutes
+    private static final long ACCESS_TOKEN_EXPIRATION = 15 * 60 * 1000; // 15 minutes
+    private final long REFRESH_TOKEN_EXPIRATION = 7 * 24 * 60 * 60 * 1000; // 7 Days
 
     private final SecretKey key = Keys.hmacShaKeyFor(SECRET.getBytes(StandardCharsets.UTF_8));
 
-    public String generateToken(String username) {
+    public String generateAccessToken(String username) {
         return Jwts.builder()
                 .subject(username)
                 .issuedAt(new Date())
-                .expiration(new Date(System.currentTimeMillis() + EXPIRATION))
+                .expiration(new Date(System.currentTimeMillis() + ACCESS_TOKEN_EXPIRATION))
                 .signWith(key)
                 .compact();
     }
+
+    public String generateRefreshToken(String username) {
+        return Jwts.builder()
+                .setSubject(username)
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + REFRESH_TOKEN_EXPIRATION))
+                .signWith(key)
+                .compact();
+    }
+
 
     public String extractUsername(String token) {
         return Jwts.parser()
