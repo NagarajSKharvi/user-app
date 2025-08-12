@@ -31,6 +31,10 @@ public class User {
     @Column(name = "contact")
     private String contact;
 
+    @Column(name = "refresh_token")
+    @JsonIgnore
+    private String refreshToken;
+
     public String getName() {
         return StringUtils.isEmpty(this.lastName) ? this.firstName : this.firstName + " " + this.lastName;
     }
